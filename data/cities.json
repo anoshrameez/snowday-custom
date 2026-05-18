@@ -1,0 +1,36 @@
+[
+  {
+    "slug": "joliet-il",
+    "city": "Joliet",
+    "state": "Illinois",
+    "stateCode": "IL",
+    "stateSlug": "illinois",
+    "country": "United States",
+    "countryCode": "US",
+    "lat": 41.525,
+    "lon": -88.081,
+    "timezone": "America/Chicago",
+    "population": 150000,
+    "elevation": 180,
+    "avgSnowfall": 28,
+    "schoolDistrict": "Joliet Public Schools",
+    "seoContent": "Joliet experiences frequent winter storms and icy road conditions during peak snowfall months."
+  },
+  {
+    "slug": "buffalo-ny",
+    "city": "Buffalo",
+    "state": "New York",
+    "stateCode": "NY",
+    "stateSlug": "new-york",
+    "country": "United States",
+    "countryCode": "US",
+    "lat": 42.8864,
+    "lon": -78.8784,
+    "timezone": "America/New_York",
+    "population": 278000,
+    "elevation": 183,
+    "avgSnowfall": 95,
+    "schoolDistrict": "Buffalo Public Schools",
+    "seoContent": "Buffalo is known for lake-effect snowstorms and severe winter weather conditions."
+  }
+]
