@@ -16,49 +16,28 @@ export function calculateSnowPrediction({
 }: PredictionInput): PredictionResult {
   let score = 0;
 
-  // Snowfall impact
-  if (snowfall >= 12) {
-    score += 55;
-  } else if (snowfall >= 8) {
-    score += 45;
-  } else if (snowfall >= 5) {
-    score += 35;
-  } else if (snowfall >= 2) {
-    score += 20;
-  }
+  if (snowfall >= 10) score += 55;
+  else if (snowfall >= 6) score += 45;
+  else if (snowfall >= 3) score += 30;
+  else if (snowfall >= 1) score += 18;
+  else if (snowfall > 0) score += 8;
 
-  // Temperature impact
-  if (temperature <= -15) {
-    score += 25;
-  } else if (temperature <= -10) {
-    score += 20;
-  } else if (temperature <= -5) {
-    score += 15;
-  } else if (temperature <= 0) {
-    score += 8;
-  }
+  if (temperature <= -12) score += 25;
+  else if (temperature <= -7) score += 20;
+  else if (temperature <= -2) score += 14;
+  else if (temperature <= 1) score += 8;
 
-  // Wind impact
-  if (windSpeed >= 50) {
-    score += 20;
-  } else if (windSpeed >= 35) {
-    score += 15;
-  } else if (windSpeed >= 25) {
-    score += 8;
-  }
+  if (windSpeed >= 45) score += 20;
+  else if (windSpeed >= 30) score += 14;
+  else if (windSpeed >= 18) score += 8;
 
-  // Clamp
-  score = Math.min(Math.max(score, 0), 100);
+  score = Math.min(Math.max(Math.round(score), 0), 100);
 
   let riskLevel: PredictionResult["riskLevel"] = "Low";
 
-  if (score >= 75) {
-    riskLevel = "Severe";
-  } else if (score >= 55) {
-    riskLevel = "High";
-  } else if (score >= 35) {
-    riskLevel = "Moderate";
-  }
+  if (score >= 75) riskLevel = "Severe";
+  else if (score >= 55) riskLevel = "High";
+  else if (score >= 30) riskLevel = "Moderate";
 
   return {
     chance: score,
