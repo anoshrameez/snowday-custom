@@ -86,7 +86,7 @@ export default async function PredictionPage({ params }: PageProps) {
     <>
       <Header />
 
-      <main className="min-h-screen bg-[#eef3f8] px-4 py-8 md:py-12">
+      <main className="min-h-screen bg-[#0D2240] px-4 py-8 md:py-12">
         <div className="mx-auto flex max-w-7xl flex-col gap-8">
           <CityHero
             city={city.city}
