@@ -10,8 +10,10 @@ type Props = {
 export default function HourlySnowfall({ data }: Props) {
   const maxSnow = Math.max(...data.map((item) => item.snow), 1);
 
+  const trackMinWidth = Math.max(data.length * 64, 320);
+
   return (
-    <section className="mt-10 rounded-3xl border border-slate-200 bg-white p-6 shadow-sm md:p-8">
+    <section className="mt-10 rounded-3xl bg-white/60 backdrop-blur-xl border border-white/30 p-4 shadow-xl md:p-8">
       <div className="mb-8">
         <p className="text-sm font-semibold uppercase tracking-[0.2em] text-sky-600">
           Snowfall Timeline
@@ -31,8 +33,8 @@ export default function HourlySnowfall({ data }: Props) {
           No hourly snowfall data available right now.
         </div>
       ) : (
-        <div className="overflow-x-auto pb-2">
-          <div className="flex min-w-[720px] items-end gap-4">
+        <div className="overflow-x-auto pb-6">
+          <div className="flex items-end gap-4" style={{ minWidth: `${trackMinWidth}px` }}>
             {data.map((item, index) => {
               const barHeight = Math.max((item.snow / maxSnow) * 220, 10);
               const isHeavy = item.snow >= 2;
@@ -40,13 +42,13 @@ export default function HourlySnowfall({ data }: Props) {
               return (
                 <div
                   key={`${item.time}-${index}`}
-                  className="flex flex-1 flex-col items-center"
+                  className="flex flex-col items-center" style={{ minWidth: 56 }}
                 >
                   <div className="mb-3 text-xs font-bold text-slate-500">
                     {item.snow} mm
                   </div>
 
-                  <div className="flex h-[240px] w-full items-end rounded-2xl bg-slate-50 p-2">
+                  <div className="flex h-[220px] w-full items-end rounded-2xl bg-slate-50 p-2">
                     <div
                       className={`w-full rounded-2xl transition-all duration-500 ${
                         isHeavy

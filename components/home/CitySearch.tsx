@@ -1,7 +1,8 @@
 "use client";
 
-import { useMemo, useState } from "react";
+import { useMemo, useState, useRef, useEffect } from "react";
 import { useRouter } from "next/navigation";
+import Link from "next/link";
 
 type City = {
   slug: string;
@@ -28,10 +29,10 @@ export default function CitySearch({ cities }: Props) {
 
     return cities
       .filter((item) => {
-        const searchText = `${item.city} ${item.state} ${item.stateCode ?? ""} ${item.country}`.toLowerCase();
+        const searchText = `${item.city} ${item.state ?? ""} ${item.stateCode ?? ""} ${item.country}`.toLowerCase();
         return searchText.includes(normalizedQuery);
       })
-      .slice(0, 6);
+      .slice(0, 8);
   }, [cities, query]);
 
   function handleSearch() {
@@ -42,9 +43,20 @@ export default function CitySearch({ cities }: Props) {
     }
   }
 
+  const containerRef = useRef<HTMLDivElement | null>(null);
+
+  // ensure parent doesn't clip the absolute dropdown by toggling a class on body when open
+  useEffect(() => {
+    if (query) {
+      document.body.classList.add("search-dropdown-open");
+    } else {
+      document.body.classList.remove("search-dropdown-open");
+    }
+  }, [query]);
+
   return (
-    <div className="relative mx-auto mt-10 max-w-2xl">
-      <div className="flex rounded-full bg-white p-2 shadow-2xl">
+    <div ref={containerRef} className="relative mx-auto mt-6 max-w-2xl z-50">
+      <div className="flex w-full items-center gap-3 rounded-3xl bg-white/60 backdrop-blur-xl border border-white/30 p-2 shadow-xl">
         <input
           value={query}
           onChange={(event) => setQuery(event.target.value)}
@@ -53,37 +65,40 @@ export default function CitySearch({ cities }: Props) {
               handleSearch();
             }
           }}
-          className="flex-1 rounded-full px-6 text-gray-700 outline-none"
+          className="flex-1 rounded-2xl px-4 py-3 text-gray-700 outline-none"
           placeholder="Search your city..."
+          inputMode="search"
         />
 
         <button
           onClick={handleSearch}
-          className="rounded-full bg-blue-600 px-8 py-4 font-bold text-white transition hover:bg-blue-700"
+          className="rounded-2xl bg-blue-600 px-4 py-2 font-bold text-white transition hover:bg-blue-700"
         >
           Search
         </button>
       </div>
 
       {query && (
-        <div className="absolute left-0 right-0 top-[72px] z-20 rounded-3xl bg-white p-3 text-left shadow-2xl">
+        <div className="absolute left-0 right-0 top-full mt-3 z-[9999] max-h-[320px] overflow-y-auto rounded-3xl bg-white/80 p-2 shadow-xl">
           {filteredCities.length > 0 ? (
             filteredCities.map((item) => (
-              <a
+              <Link
                 key={item.slug}
                 href={`/prediction/${item.slug}`}
-                className="block rounded-2xl px-5 py-3 font-bold text-[#0d2342] hover:bg-blue-50"
+                className="block rounded-2xl px-4 py-3 font-bold text-[#0d2342] hover:bg-blue-50"
               >
-                {item.city}, {item.stateCode || item.state}
-                <span className="ml-2 text-sm font-normal text-gray-500">
-                  {item.country}
-                </span>
-              </a>
+                <div className="flex items-center justify-between">
+                  <div>
+                    {item.city}, {item.stateCode || item.state}
+                    <div className="mt-1 text-sm font-normal text-gray-500">
+                      {item.country}
+                    </div>
+                  </div>
+                </div>
+              </Link>
             ))
           ) : (
-            <div className="rounded-2xl px-5 py-4 text-sm text-gray-500">
-              No matching cities found.
-            </div>
+            <div className="rounded-2xl px-5 py-4 text-sm text-gray-500">No matching cities found.</div>
           )}
         </div>
       )}

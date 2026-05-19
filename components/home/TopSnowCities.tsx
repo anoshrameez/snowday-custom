@@ -1,68 +1,12 @@
 import Link from "next/link";
-import { getWeatherData } from "@/lib/weather";
+import { getTopSnowCities } from "@/lib/topSnowCities";
 
-type City = {
-  slug: string;
-  city: string;
-  state: string;
-  stateCode: string;
-  country: string;
-  lat: number;
-  lon: number;
-  avgSnowfall: number;
-};
-
-type Props = {
-  cities: City[];
-};
-
-type SnowCity = {
-  city: City;
-  snowfall: number;
-};
-
-const CACHE_TTL_MS = 60 * 60 * 1000;
-let cachedSnowCities: SnowCity[] = [];
-let cachedSnowCitiesAt = 0;
-
-async function fetchSnowiestCities(cities: City[]) {
-  const now = Date.now();
-
-  if (cachedSnowCitiesAt && now - cachedSnowCitiesAt < CACHE_TTL_MS && cachedSnowCities.length) {
-    return cachedSnowCities;
-  }
-
-  const results = await Promise.allSettled(
-    cities.map(async (city) => {
-      try {
-        const weather = await getWeatherData(city.lat, city.lon);
-        return {
-          city,
-          snowfall: weather.snowfall,
-        };
-      } catch {
-        return null;
-      }
-    })
-  );
-
-  const snowCities = results
-    .map((result) => (result.status === "fulfilled" ? result.value : null))
-    .filter((item): item is SnowCity => item !== null)
-    .sort((a, b) => b.snowfall - a.snowfall);
-
-  cachedSnowCities = snowCities;
-  cachedSnowCitiesAt = now;
-  return snowCities;
-}
-
-export default async function TopSnowCities({ cities }: Props) {
-  const snowCities = await fetchSnowiestCities(cities);
-  const topCities = snowCities.slice(0, 5);
+export default async function TopSnowCities() {
+  const topCities = await getTopSnowCities(5);
 
   return (
     <section className="px-4 pb-16">
-      <div className="mx-auto max-w-5xl rounded-3xl bg-white p-8 shadow-2xl">
+      <div className="mx-auto max-w-5xl rounded-3xl bg-white/60 backdrop-blur-xl border border-white/40 p-6 shadow-xl">
         <div className="flex flex-col gap-4 md:flex-row md:items-end md:justify-between">
           <div>
             <h2 className="text-3xl font-black text-[#0d2342]">
@@ -76,33 +20,30 @@ export default async function TopSnowCities({ cities }: Props) {
             Updated every hour with live snowfall data.
           </div>
         </div>
-
         {topCities.length > 0 ? (
-          <div className="mt-8 grid gap-4">
+          <div className="mt-6 grid gap-4">
             {topCities.map(({ city, snowfall }, index) => (
               <Link
                 key={city.slug}
                 href={`/prediction/${city.slug}`}
-                className="group rounded-3xl border border-gray-200 p-6 transition hover:border-blue-500 hover:bg-blue-50"
+                className="group flex items-center justify-between gap-4 rounded-3xl border border-white/20 p-4 transition hover:scale-[1.01]"
               >
-                <div className="flex items-center justify-between gap-4">
-                  <div>
-                    <div className="text-2xl font-black text-[#0d2342]">
-                      {index + 1}. {city.city}, {city.stateCode}
-                    </div>
-                    <div className="mt-1 text-sm text-gray-500">
-                      {city.country}
-                    </div>
+                <div>
+                  <div className="text-xl font-extrabold text-[#0d2342]">
+                    {index + 1}. {city.city}{city.stateCode ? `, ${city.stateCode}` : ""}
                   </div>
-                  <div className="rounded-3xl bg-blue-600 px-4 py-2 text-sm font-bold text-white">
-                    {snowfall.toFixed(1)} mm
+                  <div className="mt-1 text-sm text-gray-600">
+                    {city.country}
                   </div>
+                </div>
+                <div className="rounded-3xl bg-blue-600 px-4 py-2 text-sm font-bold text-white">
+                  {snowfall > 0 ? `${snowfall.toFixed(1)} mm` : `Forecast risk`}
                 </div>
               </Link>
             ))}
           </div>
         ) : (
-          <div className="mt-8 rounded-3xl border border-gray-200 bg-slate-50 p-6 text-center text-gray-500">
+          <div className="mt-8 rounded-3xl border border-white/10 bg-white/40 p-6 text-center text-gray-500">
             Live snowfall data is unavailable right now. Please refresh in a few minutes.
           </div>
         )}

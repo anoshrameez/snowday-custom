@@ -2,6 +2,7 @@ import Header from "@/components/layout/Header";
 import Footer from "@/components/layout/Footer";
 import CitySearch from "@/components/home/CitySearch";
 import TopSnowCities from "@/components/home/TopSnowCities";
+import Link from "next/link";
 import cities from "@/data/cities.json";
 
 export const metadata = {
@@ -38,7 +39,7 @@ export default function HomePage() {
           </div>
         </section>
 
-        <TopSnowCities cities={cities} />
+        <TopSnowCities />
 
         <section className="px-4 pb-16">
           <div className="mx-auto max-w-5xl rounded-3xl bg-white p-8 shadow-2xl">
@@ -84,7 +85,7 @@ export default function HomePage() {
 
             <div className="mt-8 grid gap-4 md:grid-cols-2 lg:grid-cols-4">
               {featuredCities.map((city) => (
-                <a
+                <Link
                   key={city.slug}
                   href={`/prediction/${city.slug}`}
                   className="rounded-2xl border border-gray-200 p-5 transition hover:border-blue-500 hover:bg-blue-50"
@@ -93,10 +94,8 @@ export default function HomePage() {
                     {city.city}, {city.stateCode}
                   </div>
 
-                  <div className="mt-1 text-sm text-gray-500">
-                    {city.country}
-                  </div>
-                </a>
+                  <div className="mt-1 text-sm text-gray-500">{city.country}</div>
+                </Link>
               ))}
             </div>
           </div>
@@ -117,7 +116,7 @@ export default function HomePage() {
 
             <div className="mt-8 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
               {browseCities.map((city) => (
-                <a
+                <Link
                   key={city.slug}
                   href={`/prediction/${city.slug}`}
                   className="rounded-3xl border border-gray-200 p-5 transition hover:border-blue-500 hover:bg-blue-50"
@@ -125,10 +124,8 @@ export default function HomePage() {
                   <div className="text-xl font-black text-[#0d2342]">
                     {city.city}, {city.stateCode}
                   </div>
-                  <div className="mt-1 text-sm text-gray-500">
-                    {city.country}
-                  </div>
-                </a>
+                  <div className="mt-1 text-sm text-gray-500">{city.country}</div>
+                </Link>
               ))}
             </div>
           </div>

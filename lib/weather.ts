@@ -30,7 +30,19 @@ export async function getWeatherData(
     });
 
     if (!response.ok) {
-      throw new Error("Failed to fetch weather data");
+      const bodyText = await response.text().catch(() => "<no-body>");
+      console.error("Weather API returned non-OK status", response.status, bodyText);
+
+      // Return a safe fallback instead of throwing so callers can gracefully degrade
+      return {
+        temperature: 0,
+        windSpeed: 0,
+        snowfall: 0,
+        hourlySnowfall: Array.from({ length: 12 }).map((_, index) => ({
+          time: `${index + 1}h`,
+          snow: 0,
+        })),
+      } as WeatherResult;
     }
 
     const data = await response.json();
