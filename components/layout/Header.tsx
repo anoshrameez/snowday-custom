@@ -1,47 +1,37 @@
+import Link from "next/link";
+
 export default function Header() {
   return (
-    <header className="sticky top-0 z-50 border-b border-white/10 bg-[#0d2342]/95 backdrop-blur">
-      <div className="mx-auto flex max-w-6xl items-center justify-between px-4 py-4">
-        
-        <a href="/" className="leading-none">
-          <div className="text-2xl font-black italic text-white">
-            Snow Day
-          </div>
+    <header className="sticky top-0 z-50 border-b border-white/10 bg-[#0d2342]/95 backdrop-blur-xl shadow-xl">
+      <div className="mx-auto flex max-w-6xl flex-wrap items-center justify-between gap-3 px-4 py-4">
+        <Link href="/" className="leading-none">
+          <div className="text-2xl font-black italic text-white">Snow Day</div>
 
           <div className="text-[10px] font-bold tracking-[4px] text-blue-300">
             PREDICTOR
           </div>
-        </a>
+        </Link>
 
-        <nav className="hidden items-center gap-8 md:flex">
-          <a
-            href="/"
-            className="text-sm font-semibold text-white/70 transition hover:text-white"
-          >
+        <nav className="hidden items-center gap-6 md:flex">
+          <Link href="/" className="text-sm font-semibold text-white/80 transition hover:text-white">
             Home
-          </a>
+          </Link>
 
-          <a
-            href="/prediction/joliet-il"
-            className="text-sm font-semibold text-white/70 transition hover:text-white"
-          >
+          <Link href="/prediction" className="text-sm font-semibold text-white/80 transition hover:text-white">
             Predictions
-          </a>
+          </Link>
 
-          <a
-            href="/"
-            className="text-sm font-semibold text-white/70 transition hover:text-white"
-          >
+          <Link href="/about" className="text-sm font-semibold text-white/80 transition hover:text-white">
             About
-          </a>
+          </Link>
         </nav>
 
-        <a
-          href="/prediction/buffalo-ny"
-          className="rounded-full bg-blue-600 px-5 py-3 text-sm font-bold text-white transition hover:bg-blue-700"
+        <Link
+          href="/#prediction-search"
+          className="rounded-full bg-blue-500 px-5 py-3 text-sm font-bold text-white transition hover:bg-blue-600"
         >
           Check Prediction
-        </a>
+        </Link>
 
       </div>
     </header>

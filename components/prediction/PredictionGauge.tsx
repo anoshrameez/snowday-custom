@@ -31,7 +31,7 @@ export default function PredictionGauge({ chance }: PredictionGaugeProps) {
       : "A snow day is not likely with the current forecast.";
 
   return (
-    <section className="rounded-3xl border border-slate-200 bg-white p-6 shadow-sm md:p-8">
+    <section className="rounded-[32px] border border-white/60 bg-white/80 p-6 shadow-xl backdrop-blur-xl md:p-8">
       <div className="grid gap-8 md:grid-cols-[260px_1fr] md:items-center">
         <div className="flex justify-center">
           <div className="relative h-[220px] w-[220px]">
@@ -94,7 +94,7 @@ export default function PredictionGauge({ chance }: PredictionGaugeProps) {
           </p>
 
           <div className="mt-6 grid gap-3 sm:grid-cols-3">
-            <div className="rounded-2xl bg-slate-50 p-4">
+            <div className="rounded-3xl border border-white/70 bg-white/80 p-4 shadow-sm">
               <p className="text-xs font-semibold uppercase text-slate-500">
                 Confidence
               </p>
@@ -107,7 +107,7 @@ export default function PredictionGauge({ chance }: PredictionGaugeProps) {
               </p>
             </div>
 
-            <div className="rounded-2xl bg-slate-50 p-4">
+            <div className="rounded-3xl border border-white/70 bg-white/80 p-4 shadow-sm">
               <p className="text-xs font-semibold uppercase text-slate-500">
                 Risk Level
               </p>
@@ -120,7 +120,7 @@ export default function PredictionGauge({ chance }: PredictionGaugeProps) {
               </p>
             </div>
 
-            <div className="rounded-2xl bg-slate-50 p-4">
+            <div className="rounded-3xl border border-white/70 bg-white/80 p-4 shadow-sm">
               <p className="text-xs font-semibold uppercase text-slate-500">
                 Updated
               </p>

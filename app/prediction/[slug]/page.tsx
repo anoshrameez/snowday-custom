@@ -10,6 +10,7 @@ import CommunityVote from "@/components/prediction/CommunityVote";
 import CitySeoContent from "@/components/prediction/CitySeoContent";
 import FaqSection from "@/components/prediction/FaqSection";
 import RelatedCities from "@/components/prediction/RelatedCities";
+import CityBrowser from "@/components/prediction/CityBrowser";
 
 import cities from "@/data/cities.json";
 
@@ -120,6 +121,8 @@ export default async function PredictionPage({ params }: PageProps) {
           />
 
           <FaqSection city={city.city} state={city.state} />
+
+          <CityBrowser cities={cities} />
 
           <RelatedCities cities={relatedCities} currentSlug={city.slug} />
         </div>

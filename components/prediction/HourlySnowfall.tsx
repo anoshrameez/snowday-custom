@@ -36,25 +36,22 @@ export default function HourlySnowfall({ data }: Props) {
         <div className="overflow-x-auto pb-6">
           <div className="flex items-end gap-4" style={{ minWidth: `${trackMinWidth}px` }}>
             {data.map((item, index) => {
-              const barHeight = Math.max((item.snow / maxSnow) * 220, 10);
-              const isHeavy = item.snow >= 2;
+              const barHeight = item.snow > 0 ? Math.max((item.snow / maxSnow) * 180, 32) : 8;
+              const barClasses = item.snow > 0 ? "bg-gradient-to-t from-blue-700 to-sky-400" : "bg-slate-300";
 
               return (
                 <div
                   key={`${item.time}-${index}`}
-                  className="flex flex-col items-center" style={{ minWidth: 56 }}
+                  className="flex flex-col items-center"
+                  style={{ minWidth: 72 }}
                 >
                   <div className="mb-3 text-xs font-bold text-slate-500">
-                    {item.snow} mm
+                    {item.snow.toFixed(1)} mm
                   </div>
 
-                  <div className="flex h-[220px] w-full items-end rounded-2xl bg-slate-50 p-2">
+                  <div className="flex h-[220px] w-full items-end rounded-3xl bg-slate-100 p-2">
                     <div
-                      className={`w-full rounded-2xl transition-all duration-500 ${
-                        isHeavy
-                          ? "bg-blue-700"
-                          : "bg-gradient-to-t from-sky-500 to-sky-300"
-                      }`}
+                      className={`w-full rounded-3xl transition-all duration-500 ${barClasses}`}
                       style={{
                         height: `${barHeight}px`,
                       }}

@@ -10,9 +10,9 @@ export default function AiSummary({
   summary,
 }: Props) {
   return (
-    <section className="mt-8 rounded-3xl bg-[#0d2342] p-8 text-white shadow-2xl">
+    <section className="mt-8 rounded-[32px] bg-white/85 p-8 shadow-xl backdrop-blur-xl border border-white/60 text-slate-900">
       <div className="mb-6 flex items-center gap-3">
-        <div className="flex h-12 w-12 items-center justify-center rounded-2xl bg-blue-500 text-2xl">
+        <div className="flex h-12 w-12 items-center justify-center rounded-3xl bg-blue-500 text-2xl text-white">
           🤖
         </div>
 

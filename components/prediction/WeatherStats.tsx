@@ -60,7 +60,7 @@ export default function WeatherStats({
   ];
 
   return (
-    <section className="mt-10">
+    <section className="mt-10 rounded-[32px] bg-white/80 p-6 shadow-xl backdrop-blur-xl border border-white/60">
       <div className="mb-8">
         <p className="text-sm font-semibold uppercase tracking-[0.2em] text-sky-600">
           Live Weather
@@ -70,9 +70,8 @@ export default function WeatherStats({
           Current Weather Conditions
         </h2>
 
-        <p className="mt-3 max-w-2xl text-lg leading-8 text-gray-600">
-          Live weather metrics affecting school closure probability and snow day
-          predictions.
+        <p className="mt-3 max-w-2xl text-lg leading-8 text-slate-600">
+          Live weather metrics affecting school closure probability and snow day predictions.
         </p>
       </div>
 
@@ -80,7 +79,7 @@ export default function WeatherStats({
         {stats.map((item) => (
           <div
             key={item.label}
-            className="group rounded-3xl border border-slate-200 bg-white p-6 shadow-sm transition-all duration-300 hover:-translate-y-1 hover:border-sky-200 hover:shadow-xl"
+            className="group rounded-[28px] border border-white/70 bg-white/90 p-6 shadow-sm transition-all duration-300 hover:-translate-y-1 hover:border-blue-300 hover:shadow-xl"
           >
             <div className="flex items-start justify-between">
               <div>
