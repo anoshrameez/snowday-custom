@@ -18,6 +18,7 @@ export async function getWeatherData(
     `&longitude=${lon}` +
     `&current=temperature_2m,wind_speed_10m` +
     `&hourly=snowfall,temperature_2m,wind_speed_10m` +
+    `&daily=snowfall_sum` +
     `&forecast_days=1` +
     `&timezone=auto`;
 
@@ -39,13 +40,11 @@ export async function getWeatherData(
 
     const snowArray: number[] = data?.hourly?.snowfall ?? [];
     const timeArray: string[] = data?.hourly?.time ?? [];
+    const dailySnow = Number(data?.daily?.snowfall_sum?.[0] ?? NaN);
 
-    const next12Snow = snowArray.slice(0, 12);
-
-    const totalSnowfall = next12Snow.reduce(
-      (sum: number, value: number) => sum + Number(value || 0),
-      0
-    );
+    const totalSnowfall = Number.isFinite(dailySnow)
+      ? dailySnow
+      : snowArray.reduce((sum: number, value: number) => sum + Number(value || 0), 0);
 
     const hourlySnowfall = timeArray.slice(0, 12).map((time, index) => {
       const date = new Date(time);

@@ -1,6 +1,7 @@
 import Header from "@/components/layout/Header";
 import Footer from "@/components/layout/Footer";
 import CitySearch from "@/components/home/CitySearch";
+import TopSnowCities from "@/components/home/TopSnowCities";
 import cities from "@/data/cities.json";
 
 export const metadata = {
@@ -11,6 +12,7 @@ export const metadata = {
 
 export default function HomePage() {
   const featuredCities = cities.slice(0, 8);
+  const browseCities = cities.slice(0, 12);
 
   return (
     <>
@@ -35,6 +37,8 @@ export default function HomePage() {
             <CitySearch cities={cities} />
           </div>
         </section>
+
+        <TopSnowCities cities={cities} />
 
         <section className="px-4 pb-16">
           <div className="mx-auto max-w-5xl rounded-3xl bg-white p-8 shadow-2xl">
@@ -89,6 +93,38 @@ export default function HomePage() {
                     {city.city}, {city.stateCode}
                   </div>
 
+                  <div className="mt-1 text-sm text-gray-500">
+                    {city.country}
+                  </div>
+                </a>
+              ))}
+            </div>
+          </div>
+        </section>
+
+        <section className="px-4 pb-20">
+          <div className="mx-auto max-w-5xl rounded-3xl bg-white p-8 shadow-2xl">
+            <div className="flex flex-col gap-3 md:flex-row md:items-end md:justify-between">
+              <div>
+                <h2 className="text-3xl font-black text-[#0d2342]">
+                  Browse Cities
+                </h2>
+                <p className="mt-2 text-gray-500">
+                  Search by city, state, or country and go directly to a prediction page.
+                </p>
+              </div>
+            </div>
+
+            <div className="mt-8 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+              {browseCities.map((city) => (
+                <a
+                  key={city.slug}
+                  href={`/prediction/${city.slug}`}
+                  className="rounded-3xl border border-gray-200 p-5 transition hover:border-blue-500 hover:bg-blue-50"
+                >
+                  <div className="text-xl font-black text-[#0d2342]">
+                    {city.city}, {city.stateCode}
+                  </div>
                   <div className="mt-1 text-sm text-gray-500">
                     {city.country}
                   </div>

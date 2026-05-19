@@ -30,8 +30,17 @@ function slugify(value: string) {
     .replace(/(^-|-$)/g, "");
 }
 
-function createSeoContent(city: string, state: string) {
-  return `${city}, ${state} is a major snow day prediction city known for lake-effect snow, winter storms, freezing temperatures, and school closure risks.`;
+const seoTemplates = [
+  "is known for lake-effect snow, freezing temperatures, winter storms, and school closure risk.",
+  "sees heavy snow, icy roads, winter storms, and frequent school closure alerts.",
+  "faces powerful winter storms, lake-effect snow, freezing temperatures, and closure risks.",
+  "has live snowy forecasts, winter travel warnings, and school closure alerts.",
+  "is a top snowy destination with heavy snow forecasts, icy conditions, and school closure chances."
+];
+
+function createSeoContent(city: string, state: string, index: number) {
+  const template = seoTemplates[index % seoTemplates.length];
+  return `${city}, ${state} ${template}`;
 }
 
 async function generateCities() {
@@ -45,7 +54,7 @@ async function generateCities() {
     throw new Error("source-cities.json must contain an array of city objects.");
   }
 
-  const cities = sourceCities.map((city) => {
+  const cities = sourceCities.map((city, index) => {
     const stateSlug = slugify(city.state);
     const slug = slugify(`${city.city}-${city.stateCode}`);
 
@@ -53,7 +62,7 @@ async function generateCities() {
       ...city,
       slug,
       stateSlug,
-      seoContent: createSeoContent(city.city, city.state),
+      seoContent: createSeoContent(city.city, city.state, index),
     };
   });
 

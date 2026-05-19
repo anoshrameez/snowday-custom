@@ -1,6 +1,7 @@
 "use client";
 
-import { useState } from "react";
+import { useMemo, useState } from "react";
+import { useRouter } from "next/navigation";
 
 type City = {
   slug: string;
@@ -15,20 +16,29 @@ type Props = {
 };
 
 export default function CitySearch({ cities }: Props) {
+  const router = useRouter();
   const [query, setQuery] = useState("");
 
-  const filteredCities = cities
-    .filter((item) => {
-      const searchText = `${item.city} ${item.state} ${item.stateCode} ${item.country}`.toLowerCase();
-      return searchText.includes(query.toLowerCase());
-    })
-    .slice(0, 6);
+  const filteredCities = useMemo(() => {
+    const normalizedQuery = query.trim().toLowerCase();
+
+    if (!normalizedQuery) {
+      return [];
+    }
+
+    return cities
+      .filter((item) => {
+        const searchText = `${item.city} ${item.state} ${item.stateCode ?? ""} ${item.country}`.toLowerCase();
+        return searchText.includes(normalizedQuery);
+      })
+      .slice(0, 6);
+  }, [cities, query]);
 
   function handleSearch() {
     const firstMatch = filteredCities[0];
 
     if (firstMatch) {
-      window.location.href = `/prediction/${firstMatch.slug}`;
+      router.push(`/prediction/${firstMatch.slug}`);
     }
   }
 
@@ -55,20 +65,26 @@ export default function CitySearch({ cities }: Props) {
         </button>
       </div>
 
-      {query && filteredCities.length > 0 && (
+      {query && (
         <div className="absolute left-0 right-0 top-[72px] z-20 rounded-3xl bg-white p-3 text-left shadow-2xl">
-          {filteredCities.map((item) => (
-            <a
-              key={item.slug}
-              href={`/prediction/${item.slug}`}
-              className="block rounded-2xl px-5 py-3 font-bold text-[#0d2342] hover:bg-blue-50"
-            >
-              {item.city}, {item.stateCode || item.state}
-              <span className="ml-2 text-sm font-normal text-gray-500">
-                {item.country}
-              </span>
-            </a>
-          ))}
+          {filteredCities.length > 0 ? (
+            filteredCities.map((item) => (
+              <a
+                key={item.slug}
+                href={`/prediction/${item.slug}`}
+                className="block rounded-2xl px-5 py-3 font-bold text-[#0d2342] hover:bg-blue-50"
+              >
+                {item.city}, {item.stateCode || item.state}
+                <span className="ml-2 text-sm font-normal text-gray-500">
+                  {item.country}
+                </span>
+              </a>
+            ))
+          ) : (
+            <div className="rounded-2xl px-5 py-4 text-sm text-gray-500">
+              No matching cities found.
+            </div>
+          )}
         </div>
       )}
     </div>

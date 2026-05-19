@@ -76,10 +76,6 @@ export default function PredictionGauge({ chance }: PredictionGaugeProps) {
               <div className="text-5xl font-extrabold tracking-tight text-slate-950">
                 {safeChance}%
               </div>
-
-              <div className="mt-2 text-sm font-semibold uppercase tracking-wide text-sky-700">
-                Snow Day Chance
-              </div>
             </div>
           </div>
         </div>
